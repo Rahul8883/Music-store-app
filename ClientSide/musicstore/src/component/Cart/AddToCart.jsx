@@ -25,16 +25,31 @@ export class AddToCart extends Component {
 
     this.state = {
       cart: this.props.location.state,
+      sum: 0,
+      priceArr: [],
     };
   }
   handleAddmusic = () => {
     this.props.history.push("/musicList");
   };
+  arrayIn = () => {
+    let value = 0;
+    this.state.cart.map((key) => {
+      return (value += key.unitprice);
+    });
+    this.setState({
+      sum: value,
+    });
+  };
+  componentDidMount() {
+    this.arrayIn();
+  }
   render() {
-      console.log(this.props.location.state);
+    console.log(this.state.priceArr);
+
     return (
       <div
-        style={{ width: "100%", height: "100vh", backgroundColor: "#ffd7de87" }}
+        style={{ width: "100%", height: "100vh", backgroundColor: "#ffd7de87", padding:"0", margin :"0" }}
       >
         <Nav>
           <Container>
@@ -51,40 +66,82 @@ export class AddToCart extends Component {
             </Menu>
             <Menu>
               <LinkWrapper>
-              <span>
-                <img src={Security} alt="Logo" width="100" height="50" />
-              </span>
-              <span style={{ fontWeight: "500", color: "green" }}>
-                100% Secure
-              </span>
+                <span>
+                  <img src={Security} alt="Logo" width="100" height="50" />
+                </span>
+                <span style={{ fontWeight: "500", color: "green" }}>
+                  100% Secure
+                </span>
               </LinkWrapper>
             </Menu>
           </Container>
         </Nav>
-       <SubContainer>
-           <Card>
-               <div style={{display:"flex", justifyContent : "space-between", margin : "1rem"}}>
-                <h4>Add More Item Securely</h4>
-                <Button onClick={this.handleAddmusic}> + ADD Music</Button>
-               </div>
+        <SubContainer>
+          <Card>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                margin: "1rem",
+              }}
+            >
+              <h4>Add More Item Securely</h4>
+              <Button onClick={this.handleAddmusic}> + ADD Music</Button>
+            </div>
 
-               <Listt>
-                    <SubList>Track Name</SubList>
-                   <SubList>Unit Price</SubList>
-                   <SubList> Item ID</SubList>
-                </Listt>
-               {this.props.location.state.map(key=>{
-                   return(
-                    <List>
-                    <SubList>{key.trackname} </SubList>
-                   <SubList>{key.unitprice}</SubList>
-                   <SubList>{key._id}</SubList>
+            <Listt>
+              <SubList>Track Name</SubList>
+              <SubList>Unit Price</SubList>
+              <SubList> Item ID</SubList>
+            </Listt>
+            {this.props.location.state.map((key) => {
+              return (
+                <List>
+                  <SubList>{key.trackname} </SubList>
+                  <SubList>{key.unitprice}</SubList>
+                  <SubList>{key._id}</SubList>
                 </List>
-                   )
-               })}
-               
-           </Card>
-       </SubContainer>
+              );
+            })}
+            <ul>
+              <MainDetails><h5>Price Detail ({this.props.location.state.length}) Item</h5></MainDetails>
+              <MainDetails>
+                <Details>
+                  <li>Total Price</li>
+                  <li>{this.state.sum}</li>
+                </Details>
+              </MainDetails>
+              <MainDetails>
+                <Details>
+                  <li>DisCount On MRP </li>
+                  <li>-RS. 0</li>
+                </Details>
+              </MainDetails>
+              <MainDetails>
+                <Details>
+                  <li>Coupan Discount </li>
+                  <li> Applay Coupan</li>
+                </Details>
+              </MainDetails>
+              <MainDetails>
+                <Details>
+                  <li>PlateFarm handle fee </li>
+                  <li>Free</li>
+                </Details>
+              </MainDetails>
+              <MainDetails>
+                <Details style={{borderTop:"1px solid"}}>
+                  <li>
+                    <h5>Total Amount</h5>
+                  </li>
+                  <li>
+                    <h5>{this.state.sum}</h5>
+                  </li>
+                </Details>
+              </MainDetails>
+            </ul>
+          </Card>
+        </SubContainer>
       </div>
     );
   }
@@ -159,39 +216,50 @@ const Button = styled.button`
   }
 `;
 const SubContainer = styled.div`
-display : flex;
-justify-content : center;
-width : 100%;
-height : 100vh;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  align-items: center;
 `;
 const Card = styled.div`
-padding: 2rem;
-width: 65rem;
-height: 66vh;
-margin :5rem;
+  padding: 2rem;
+  width: 65rem;
+  height: 66vh;
+  margin: 5rem;
 `;
 const List = styled.ul`
-display : flex;
-justify-content : space-between;
-background-color : #ff009254;
-// text-align : center;
-padding : 1rem;
-font-size: 1rem;
-    font-family: timesNewRoman;
-    font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  background-color: #ff009254;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-family: timesNewRoman;
+  font-weight: 600;
 `;
 
 const SubList = styled.li`
-list-style-type: none;
+  list-style-type: none;
 `;
 const Listt = styled.ul`
+  display: flex;
+  justify-content: space-between;
+  background-color: #ff0092a3;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-family: timesNewRoman;
+  font-weight: 600;
+`;
+const Details = styled.ul`
 display : flex;
 justify-content : space-between;
-background-color : #ff0092a3;
-text-align : center;
-padding : 1rem;
-font-size: 1.2rem;
-    font-family: timesNewRoman;
-    font-weight: 600;
+list-style-type : none;
+color : green;
+`;
+const MainDetails = styled.li`
+// display : flex;
+// justify-content : space-between;
+list-style-type : none;
+color : green;
 `;
