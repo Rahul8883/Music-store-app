@@ -94,3 +94,16 @@ exports.getCartItemInController = (req, res) => {
         res.send(error);
     }
 }
+exports.deletecartItemInController = (req, res) => {
+    try {
+        musicService.deletecartItemInService(req, (err, data) => {
+            if (err) {
+                throw err
+            } else {
+                res.send(200, "CART ITEM DELETED SUCCESSFULLY")
+            }
+        })
+    } catch (error) {
+
+    }
+}

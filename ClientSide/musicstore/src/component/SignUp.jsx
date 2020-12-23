@@ -29,6 +29,7 @@ export class SignUp extends Component {
       .post("http://localhost:8080/register", registerValue)
       .then((response) => {
         console.log(response.data);
+        this.props.history.push('/login')
       })
       .catch((err) => {
         console.log(err);

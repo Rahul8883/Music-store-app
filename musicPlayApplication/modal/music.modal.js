@@ -136,4 +136,15 @@ musicModel.prototype.getCartItemInModal = (req, callback) => {
     }
 }
 
+musicModel.prototype.deletecartItemInModal = async(req, res) => {
+    const id = req.params.id;
+    console.log("Id comes in modal ", id);
+    try {
+        const success = await cartMusic.findByIdAndDelete(id);
+        return success;
+    } catch (error) {
+        res.send('Error', error)
+    }
+}
+
 module.exports = new musicModel();

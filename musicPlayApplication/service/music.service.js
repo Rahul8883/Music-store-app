@@ -70,3 +70,12 @@ exports.getCartItemInService = (data, callback) => {
         }
     })
 }
+exports.deletecartItemInService = (data, callback) => {
+    musicModal.deletecartItemInModal(data, (err, result) => {
+        if (err) {
+            throw err
+        } else {
+            callback(null, result)
+        }
+    })
+}

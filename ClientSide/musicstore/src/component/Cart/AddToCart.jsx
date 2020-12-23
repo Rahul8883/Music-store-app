@@ -5,6 +5,7 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
 import Logo from "../../assets/M.svg";
 import Security from "../../assets/security.svg";
 import { withRouter } from "react-router-dom";
+import axios from 'axios';
 const theme = createMuiTheme({
   overrides: {
     MuiAvatar: {
@@ -44,8 +45,16 @@ export class AddToCart extends Component {
   componentDidMount() {
     this.arrayIn();
   }
+  handleSelectData=(data)=>{
+      console.log(data);
+    axios.delete(`http://localhost:8080/deleteCart/${data}`).then((res)=>{
+        console.log("deleted");
+    }).then((err)=>{
+        console.log(err);
+    })
+  }
   render() {
-    console.log(this.state.priceArr);
+    console.log(this.state.cart);
 
     return (
       <div
@@ -93,6 +102,7 @@ export class AddToCart extends Component {
               <SubList>Track Name</SubList>
               <SubList>Unit Price</SubList>
               <SubList> Item ID</SubList>
+              <SubList>Action</SubList>
             </Listt>
             {this.props.location.state.map((key) => {
               return (
@@ -100,6 +110,15 @@ export class AddToCart extends Component {
                   <SubList>{key.trackname} </SubList>
                   <SubList>{key.unitprice}</SubList>
                   <SubList>{key._id}</SubList>
+                  <SubList>
+                  <span
+                          class="btn btn-sm btn-danger"
+                          style={{ marginLeft: "1rem" }}
+                          onClick={() => this.handleSelectData(key._id)}
+                        >
+                          <i class="fa fa-trash"></i>
+                        </span>
+                  </SubList>
                 </List>
               );
             })}
